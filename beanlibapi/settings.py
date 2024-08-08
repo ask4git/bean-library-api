@@ -53,10 +53,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'beanlibapi',
+    'beanlibapi.core',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -94,6 +99,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': get_secret("DB_NAME"),
+    #     'USER': get_secret("DB_USER"),
+    #     'PASSWORD': get_secret("DB_PASSWORD"),
+    #     'HOST': get_secret("DB_HOST"),
+    #     'PORT': get_secret("DB_PORT"),
+    # }
 }
 
 # Password validation
@@ -134,3 +147,43 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'core.User'
+
+# CORS
+CORS_ORIGIN_ALLOW_ALL = True  # <- 모든 호스트 허용
+CORS_ALLOW_CREDENTIALS = True  # <-쿠키가 cross-site HTTP 요청에 포함될 수 있다
+
+CORS_ALLOW_ORIGIN = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+]
+
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+)
+
+CORS_ALLOW_HEADERS = (
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+)
+
+# APPEND_SLASH = False #<- / 관련 에러 제거
+LOGIN_REDIRECT_URL = '/bean/'
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+]
+SESSION_COOKIE_SECURE = True
