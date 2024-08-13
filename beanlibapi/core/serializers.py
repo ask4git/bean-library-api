@@ -23,7 +23,7 @@ class BeanSerializer(s.ModelSerializer):
 
     class Meta:
         model = Bean
-        fields = ['uid', 'name', 'region', 'variety', 'process', ]
+        fields = ['uid', 'name', 'region', 'variety', 'process', 'is_active', ]
 
 
 class UserSerializer(s.ModelSerializer):

@@ -19,6 +19,7 @@ class Bean(models.Model):
     process = models.CharField(max_length=255)
     producer = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    is_active = models.BooleanField(default=True)
 
     # objects = mm.BeanManager()
 
