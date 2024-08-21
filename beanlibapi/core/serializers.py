@@ -1,7 +1,7 @@
 from rest_framework import serializers as s
 from beanlibapi.core.models import Bean, User
 from django.apps import apps
-
+# from rest_auth.registration.serializers import RegisterSerializer as _RegisterSerializer
 
 # class BeanSerializer(s.Serializer):
 #     uid = s.CharField(read_only=True)
@@ -35,3 +35,8 @@ class UserSerializer(s.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
+
+
+# class RegisterSerializer(_RegisterSerializer):
+#     first_name = s.CharField(required=False)
+#     last_name = s.CharField(required=False)

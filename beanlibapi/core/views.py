@@ -1,5 +1,5 @@
 # from django.shortcuts import render
-# from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse
 # from django.views.decorators.csrf import csrf_exempt
 # from rest_framework import status
 # from rest_framework.parsers import JSONParser
@@ -15,12 +15,24 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 
 from beanlibapi.core.permissions import IsOwnerOrReadOnly
-from beanlibapi.core.serializers import BeanSerializer
+from beanlibapi.core.serializers import (
+    BeanSerializer,
+    # RegisterSerializer,
+)
 from beanlibapi.core.models import Bean
 from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
 )
+from django.middleware.csrf import get_token
+
+# from rest_auth.registration.views import (
+#     RegisterView as _RegisterView,
+# )
+
+
+def csrf_token_view(request):
+    return JsonResponse({'csrfToken': get_token(request)})
 
 
 class LoginView(APIView):
@@ -39,16 +51,34 @@ class LoginView(APIView):
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class LoginTempView():
+    pass
+
+
+# class RegisterView(_RegisterView):
+#     serializer_class = RegisterSerializer
+#
+#     def perform_create(self, serializer):
+#         user = super().perform_create(serializer)
+#         # ls.register_user(self.request)
+#
+#         return user
+
+
 class BeanListCreateView(ListCreateAPIView):
     queryset = Bean.objects.all()
     serializer_class = BeanSerializer
     permission_classes = [p.IsAuthenticatedOrReadOnly]
 
+    def get_queryset(self):
+        return Bean.objects.filter(is_active=True)
+
 
 class BeanRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Bean.objects.all()
     serializer_class = BeanSerializer
-    permission_classes = [p.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    # permission_classes = [p.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [p.IsAuthenticatedOrReadOnly]
 
 # class BeanList(APIView):
 #     def get(self, request, format=None):

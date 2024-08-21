@@ -1,13 +1,13 @@
-# from django.contrib import admin
-#
-# from beanlibapi.core.models import Bean
-#
-# from beanlibapi.core.models import User
-#
-# admin.site.register(User)
-#
-#
-# @admin.register(Bean)
-# class BeanAdmin(admin.ModelAdmin):
-#     list_display = ('uid', 'name', 'region', 'variety', 'process',)
-#     search_fields = ['uid', 'name']
+from django.contrib import admin
+
+from django.contrib.auth.admin import UserAdmin
+from beanlibapi.core.models import User
+from beanlibapi.core.models import Bean
+
+admin.site.register(User, UserAdmin)
+
+
+@admin.register(Bean)
+class BeanAdmin(admin.ModelAdmin):
+    list_display = ('uid', 'name', 'region', 'variety', 'process',)
+    search_fields = ['uid', 'name']
