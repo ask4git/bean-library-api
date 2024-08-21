@@ -13,11 +13,14 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import json
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 from django.core.exceptions import ImproperlyConfigured
 
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -37,7 +40,8 @@ def get_secret(setting, _secrets=secrets):
         raise ImproperlyConfigured(error_msg)
 
 
-SECRET_KEY = get_secret("SECRET_KEY")
+# SECRET_KEY = get_secret("SECRET_KEY")
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -55,10 +59,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'dj_rest_auth',
     'beanlibapi',
     'beanlibapi.core',
     'corsheaders',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -67,6 +77,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -88,6 +99,14 @@ TEMPLATES = [
         },
     },
 ]
+
+# AUTHENTICATION_BACKENDS = [
+#     # Needed to login by username in Django admin, regardless of `allauth`
+#     'django.contrib.auth.backends.ModelBackend',
+#
+#     # `allauth` specific authentication methods, such as login by e-mail
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# ]
 
 WSGI_APPLICATION = 'beanlibapi.wsgi.application'
 
@@ -154,11 +173,14 @@ AUTH_USER_MODEL = 'core.User'
 CORS_ORIGIN_ALLOW_ALL = True  # <- 모든 호스트 허용
 CORS_ALLOW_CREDENTIALS = True  # <-쿠키가 cross-site HTTP 요청에 포함될 수 있다
 
-CORS_ALLOW_ORIGIN = [
+# CORS_ALLOW_ORIGIN = [
+#     'http://localhost:3000',
+#     'http://127.0.0.1:3000',
+# ]
+CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',
 ]
-
 CORS_ALLOW_METHODS = (
     'DELETE',
     'GET',
@@ -187,3 +209,5 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
 ]
 SESSION_COOKIE_SECURE = True
+
+CORS_ALLOW_ALL_ORIGINS = True
