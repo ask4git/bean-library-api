@@ -51,8 +51,10 @@ class Article(models.Model):
 #     # flavour
 
 
-class User(AbstractUser, mx.UserMixin):
+# class User(AbstractUser, mx.UserMixin):
+class User(AbstractUser):
     deleted = models.BooleanField(db_index=True, null=True, blank=True)
     deleted_at = models.DateTimeField(db_index=True, null=True, blank=True)
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
 
-    # objects = mm.UserManager()
+    objects = mm.UserManager()
