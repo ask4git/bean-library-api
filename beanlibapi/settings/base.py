@@ -12,7 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import json
 import os
+from datetime import timedelta
 from pathlib import Path
+
+# from django.conf.global_settings import STATIC_ROOT
 from dotenv import load_dotenv
 
 from django.core.exceptions import ImproperlyConfigured
@@ -57,15 +60,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'rest_framework',
+    'rest_framework_simplejwt',
     'rest_framework.authtoken',
-    'dj_rest_auth',
-    'beanlibapi',
-    'beanlibapi.core',
-    'corsheaders',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+    'beanlibapi',
+    'beanlibapi.core',
+    'corsheaders',
+    'bootstrap4',
 ]
 
 SITE_ID = 1
@@ -87,7 +94,7 @@ ROOT_URLCONF = 'beanlibapi.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,13 +107,25 @@ TEMPLATES = [
     },
 ]
 
-# AUTHENTICATION_BACKENDS = [
-#     # Needed to login by username in Django admin, regardless of `allauth`
-#     'django.contrib.auth.backends.ModelBackend',
-#
-#     # `allauth` specific authentication methods, such as login by e-mail
-#     'allauth.account.auth_backends.AuthenticationBackend',
-# ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'myapp.serializers.CustomRegisterSerializer',
+}
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 WSGI_APPLICATION = 'beanlibapi.wsgi.application'
 
@@ -150,6 +169,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
+LANGUAGES = [
+    ('ko', 'Korean'),
+    ('en-us', 'English'),
+]
+LOCALE_PATH = [os.path.join(BASE_DIR, 'locale')]
 
 TIME_ZONE = 'UTC'
 
@@ -161,6 +185,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [BASE_DIR, "static", ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -168,6 +194,34 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'core.User'
+
+# 추가적인 JWT_AUTH 설정, https://django-rest-framework-simplejwt.readthedocs.io/en/latest/
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ROTATE_REFRESH_TOKENS": True,  # True로 설정할 경우, refresh token을 보내면 새로운 access token과 refresh token이 반환된다.
+    "BLACKLIST_AFTER_ROTATION": True,  # True로 설정될 경우, 기존에 있던 refresh token은 blacklist가된다
+    "UPDATE_LAST_LOGIN": True,
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY,
+    "VERIFYING_KEY": None,
+    "AUDIENCE": None,
+    "ISSUER": None,
+    "JWK_URL": None,
+    "LEEWAY": 0,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
+    "USER_ID_FIELD": "id",
+    "USER_ID_CLAIM": "user_id",
+    "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+    "TOKEN_TYPE_CLAIM": "token_type",
+    "TOKEN_USER_CLASS": "rest_framework_simplejwt.models.TokenUser",
+    "JTI_CLAIM": "jti",
+    "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
+    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
+}
 
 # CORS
 CORS_ORIGIN_ALLOW_ALL = True  # <- 모든 호스트 허용
@@ -203,7 +257,8 @@ CORS_ALLOW_HEADERS = (
 )
 
 # APPEND_SLASH = False #<- / 관련 에러 제거
-LOGIN_REDIRECT_URL = '/bean/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
@@ -211,3 +266,16 @@ CSRF_TRUSTED_ORIGINS = [
 SESSION_COOKIE_SECURE = True
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_REQUIRED = False
+
+# JWT_ACCESS_TOKEN_LIFETIME = 3300
+JWT_ACCESS_TOKEN_LIFETIME = 15
+
+# dj-rest-auth
+REST_AUTH = {
+    'USE_JWT': True,
+    'JWT_AUTH_HTTPONLY': False,
+}
