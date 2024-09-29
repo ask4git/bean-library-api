@@ -21,7 +21,7 @@ class Bean(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     is_active = models.BooleanField(default=True)
 
-    # objects = mm.BeanManager()
+    objects = mm.BeanManager()
 
     class Meta:
         ordering = ['created_at']
@@ -37,21 +37,6 @@ class Article(models.Model):
     modified_at = models.DateTimeField(db_index=True, auto_now=True)
 
 
-# class BeanProduct
-
-# class BeanDetail(models.Model):
-#     uid = models.UUIDField(primary_key=True, default=uuid.uuid4, db_index=True, unique=True, editable=False)
-#     bean = models.OneToOneField('Bean', on_delete=models.CASCADE, db_column='bean_uid')
-#     name = models.CharField(max_length=255)
-#     process = EnumField(c.BeanProcess, max_length=50, default=c.BeanProcess.Unknown)
-#     region = EnumField(c.BeanRegion, max_length=50, default=c.BeanRegion.Unknown)
-#     producer = models.CharField(max_length=255)
-#     # location
-#     variety = models.CharField(max_length=255)
-#     # flavour
-
-
-# class User(AbstractUser, mx.UserMixin):
 class User(AbstractUser):
     deleted = models.BooleanField(db_index=True, null=True, blank=True)
     deleted_at = models.DateTimeField(db_index=True, null=True, blank=True)
