@@ -8,16 +8,13 @@ from rest_framework.authtoken import models as am
 from django.contrib.auth import get_user_model
 
 
-#
-#
-#
 # @pytest.fixture
 # def user1():
 #     user_model = get_user_model()
 #     user = user_model.objects.create_user(username='user1', password='mypassword')
 #     user.save()
-#
-#
+
+
 @pytest.fixture
 def user2():
     user_model = get_user_model()
@@ -60,7 +57,7 @@ def bean2():
 
 
 @pytest.fixture
-def bean3_inactive():
+def bean1_inactive():
     bean = m.Bean.objects.create(
         name="Ethiopia Guji Uraga Siko Natural",
         region="ethiopia",
