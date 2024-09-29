@@ -1,0 +1,27 @@
+{#{% load i18n %}#}
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+    <div>
+        <h1>Welcome to the Homepage!</h1>
+        {% if user.is_authenticated %}
+            <p>Hello, {{ user.username }}!</p>
+
+            <form action="{% url 'account_logout' %}">
+                <button type="submit">sign-out</button>
+            </form>
+        {% else %}
+            <p>Hello, Guest!</p>
+            <form action="{% url 'account_signup' %}">
+                <button type="submit">Sign-In</button>
+            </form>
+{#            <form action="{% url 'accounts:signup' %}">#}
+{#                <button type="submit">Sign-Up</button>#}
+{#            </form>#}
+{#            <form action="{% url 'core:sign-upup' %}">#}
+{#                <button type="submit">sign-Up via allauth</button>#}
+{#            </form>#}
+        {% endif %}
+        <p>This is the main landing page of the website.</p>
+    </div>
+{% endblock %}

@@ -37,3 +37,7 @@ build/
 
 # Security
 secrets.json
+
+# Utility
+initsqlite.sh
+migrations-core.sh

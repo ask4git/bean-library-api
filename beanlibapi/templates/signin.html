@@ -1,0 +1,16 @@
+<!-- accounts/templates/signup.html -->
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+    <div class="wrapper" style="text-align: center;">
+        <h1>Sign-In</h1>
+        <form method="POST">
+            {% csrf_token %}
+            Username: <input name="username" type="text">
+            <br>
+            Password: <input name="password" type="password">
+            <br>
+            <input type="submit" class="btn btn-primary" value="Sign In">
+        </form>
+    </div>
+{% endblock %}
