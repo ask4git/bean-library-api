@@ -1,17 +1,12 @@
 from django.urls import path, include
-from django.contrib.auth import views as auth_views
 from rest_framework.urlpatterns import format_suffix_patterns
-from rest_framework.utils.html import parse_html_dict
-
-from beanlibapi.core import views as v
-from beanlibapi.core import views_temp
-from beanlibapi import core
-from django.contrib.auth.views import LogoutView
-
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+
+from beanlibapi.core import views as v
+from beanlibapi.core import views_temp
 
 app_name = 'core'
 
@@ -20,9 +15,8 @@ urlpatterns = []
 # auth
 urlpatterns += [
     path('auth/', include('dj_rest_auth.urls')),
-
-    path('auth/sign-up/', v.UserRegisterView.as_view(), name='custom_register'),
-    # path('auth/sign-in/', v.UserRegisterView.as_view(), name='custom_register'),
+    path('auth/sign-up/', v.RegisterView.as_view(), name='custom_register'),
+    path('auth/sign-in/', v.LoginView.as_view(), name='custom_login'),
     # path('auth/sign-out/', v.UserRegisterView.as_view(), name='custom_register'),
 
     path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain'),

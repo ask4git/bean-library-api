@@ -1,26 +1,33 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers as s
+
+from dj_rest_auth.registration.serializers import (
+    RegisterSerializer as _RegisterSerializer,
+)
+from dj_rest_auth.serializers import (
+    LoginSerializer as _LoginSerializer,
+)
+
 from beanlibapi.core.models import Bean, User
-from django.apps import apps
-# from rest_auth.registration.serializers import RegisterSerializer as _RegisterSerializer
 
-# class BeanSerializer(s.Serializer):
-#     uid = s.CharField(read_only=True)
-#     name = s.CharField(read_only=False, allow_blank=True, max_length=255)
-#     created_at = s.DateTimeField(read_only=True)
-#
-#     def create(self, validated_data):
-#         return Bean.objects.create(**validated_data)
-#
-#     def update(self, instance, validated_data):
-#         instance.name = validated_data.get('name', instance.name)
-#         instance.save()
-#         return instance
+user_model = get_user_model()
+
+
+class CustomRegisterSerializer(_RegisterSerializer):
+    first_name = s.CharField(required=True)
+    last_name = s.CharField(required=True)
+    phone_number = s.CharField(required=True)  # 커스텀 필드 추가
+
+    def get_cleaned_data(self):
+        # 기본 필드에 추가 필드를 포함
+        data = super().get_cleaned_data()
+        data['first_name'] = self.validated_data.get('first_name', '')
+        data['last_name'] = self.validated_data.get('last_name', '')
+        data['phone_number'] = self.validated_data.get('phone_number', '')  # 커스텀 필드
+        return data
+
+
 class BeanSerializer(s.ModelSerializer):
-    # def create(self, validated_data):
-    #     # bean = apps.get_model('core', 'Bean')
-    #     # return bean.objects.create_bean(validated_data)
-    #     return Bean.objects.create_bean(validated_data)
-
     class Meta:
         model = Bean
         fields = ['uid', 'name', 'region', 'variety', 'process', 'is_active', ]
@@ -37,6 +44,15 @@ class UserSerializer(s.ModelSerializer):
         return user
 
 
-# class RegisterSerializer(_RegisterSerializer):
-#     first_name = s.CharField(required=False)
-#     last_name = s.CharField(required=False)
+class RegisterSerializer(_RegisterSerializer):
+    def get_cleaned_data(self):
+        data = super().get_cleaned_data()
+        data['first_name'] = self.validated_data.get('first_name', '')
+        data['last_name'] = self.validated_data.get('last_name', '')
+        data['phone_number'] = self.validated_data.get('phone_number', '')  # 커스텀 필드
+        return data
+
+
+class LoginSerializer(_LoginSerializer):
+    def get_cleaned_data(self):
+        print(self.validated_data)
