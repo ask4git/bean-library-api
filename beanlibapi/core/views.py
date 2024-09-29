@@ -4,20 +4,27 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
 
 )
+
 from dj_rest_auth.registration.views import (
     RegisterView as _RegisterView,
+    LoginView as _LoginView
 )
 
 from beanlibapi.core.models import Bean
 from beanlibapi.core.serializers import (
     BeanSerializer,
-    UserRegisterSerializer,
+    RegisterSerializer,
+    LoginSerializer,
 )
 from beanlibapi.core.permissions import IsOwnerOrReadOnly
 
 
-class UserRegisterView(_RegisterView):
-    serializer_class = UserRegisterSerializer
+class RegisterView(_RegisterView):
+    serializer_class = RegisterSerializer
+
+
+class LoginView(_LoginView):
+    serializer_class = LoginSerializer
 
 
 class BeanListCreateView(ListCreateAPIView):
