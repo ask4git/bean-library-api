@@ -27,6 +27,11 @@ class Bean(models.Model):
         ordering = ['created_at']
 
 
+class Cafe(models.Model):
+    uid = models.UUIDField(primary_key=True, default=uuid.uuid4, db_index=True, unique=True, editable=False)
+    name = models.CharField(max_length=255)
+
+
 class Article(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
