@@ -285,3 +285,15 @@ REST_AUTH = {
 
 CSRF_COOKIE_NAME = 'XSRF-TOKEN'
 CSRF_HEADER_NAME = 'X-XSRF-TOKEN'
+
+# AWS Configure
+AWS_ACCESS_KEY_ID = get_secret("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = get_secret("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = get_secret("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME = get_secret("AWS_S3_REGION_NAME")
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+AWS_S3_FILE_OVERWRITE = False  # 같은 이름의 파일이 덮어쓰이지 않게 설정
+AWS_DEFAULT_ACL = None  # S3 권한 설정 (None으로 설정하면 권한을 따로 설정 가능)
+AWS_S3_ADDRESSING_STYLE = 'virtual'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
