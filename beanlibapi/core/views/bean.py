@@ -1,13 +1,10 @@
-from rest_framework import permissions as p
+from rest_framework import permissions as p, status
 from rest_framework.generics import (
     ListCreateAPIView,
-    RetrieveUpdateDestroyAPIView,
+    RetrieveUpdateDestroyAPIView, CreateAPIView,
 )
-
-from dj_rest_auth.registration.views import (
-    RegisterView as _RegisterView,
-    LoginView as _LoginView
-)
+from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser
+from rest_framework.response import Response
 
 from beanlibapi.core import (
     models as m,
@@ -16,14 +13,6 @@ from beanlibapi.core import (
 
 
 # from beanlibapi.core.permissions import IsOwnerOrReadOnly
-
-
-class RegisterView(_RegisterView):
-    serializer_class = s.RegisterSerializer
-
-
-class LoginView(_LoginView):
-    serializer_class = s.LoginSerializer
 
 
 class BeanListCreateView(ListCreateAPIView):
@@ -37,3 +26,11 @@ class BeanRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     serializer_class = s.BeanSerializer
     # permission_classes = [p.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     permission_classes = [p.IsAuthenticatedOrReadOnly]
+
+
+class BeanImageUploadView(CreateAPIView):
+    permission_classes = [p.IsAuthenticated]
+    parser_classes = [FileUploadParser]
+
+    def create(self, request, *args, **kwargs):
+        return Response(status=status.HTTP_201_CREATED)
