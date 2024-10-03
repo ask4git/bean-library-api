@@ -16,3 +16,8 @@ class UserMixin:
     @property
     def is_authenticated(self):
         return self.is_active
+
+
+class AttachmentMixin:
+    def __str__(self):
+        return self.filename

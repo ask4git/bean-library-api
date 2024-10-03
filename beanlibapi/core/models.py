@@ -3,12 +3,29 @@ import uuid
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from rest_framework.fields import JSONField
+
 from beanlibapi.core import (
     model_managers as mm,
     model_mixins as mx,
     constants as c,
 )
 from enumfields import EnumField
+from shortid import ShortId
+
+SID_GENERATOR = ShortId()
+
+
+def generate_sid():
+    return str(SID_GENERATOR.generate())
+
+
+class User(AbstractUser):
+    deleted = models.BooleanField(db_index=True, null=True, blank=True)
+    deleted_at = models.DateTimeField(db_index=True, null=True, blank=True)
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+
+    objects = mm.UserManager()
 
 
 class Bean(models.Model):
@@ -27,12 +44,19 @@ class Bean(models.Model):
         ordering = ['created_at']
 
 
+class BeanDetail(models.Model):
+    uid = models.UUIDField(primary_key=True, default=uuid.uuid4, db_index=True, unique=True, editable=False)
+    bean_uid = models.ForeignKey(Bean, on_delete=models.CASCADE)
+    context = JSONField(default={}, blank=True)
+
+
 class Cafe(models.Model):
     uid = models.UUIDField(primary_key=True, default=uuid.uuid4, db_index=True, unique=True, editable=False)
     name = models.CharField(max_length=255)
 
 
 class Article(models.Model):
+    uid = models.CharField(primary_key=True, max_length=24, unique=True, editable=False, default=generate_sid)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     content = models.TextField()
@@ -42,9 +66,10 @@ class Article(models.Model):
     modified_at = models.DateTimeField(db_index=True, auto_now=True)
 
 
-class User(AbstractUser):
-    deleted = models.BooleanField(db_index=True, null=True, blank=True)
-    deleted_at = models.DateTimeField(db_index=True, null=True, blank=True)
-    phone_number = models.CharField(max_length=15, blank=True, null=True)
-
-    objects = mm.UserManager()
+class Attachment(models.Model, mx.AttachmentMixin):
+    uid = models.CharField(primary_key=True, max_length=24, unique=True, editable=False, default=generate_sid)
+    filename = models.CharField(max_length=255)
+    path = models.FilePathField(max_length=255)
+    created_at = models.DateTimeField(db_index=True, auto_now_add=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    bean = models.ForeignKey('Bean', null=True, blank=True, on_delete=models.CASCADE)
