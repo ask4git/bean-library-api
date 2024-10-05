@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'beanlibapi.core',
     'corsheaders',
     'bootstrap4',
+    'storages',
 ]
 
 SITE_ID = 1

@@ -19,7 +19,6 @@ class CustomRegisterSerializer(_RegisterSerializer):
     phone_number = s.CharField(required=True)  # 커스텀 필드 추가
 
     def get_cleaned_data(self):
-        # 기본 필드에 추가 필드를 포함
         data = super().get_cleaned_data()
         data['first_name'] = self.validated_data.get('first_name', '')
         data['last_name'] = self.validated_data.get('last_name', '')
