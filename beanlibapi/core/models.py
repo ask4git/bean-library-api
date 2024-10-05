@@ -3,7 +3,6 @@ import uuid
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from rest_framework.fields import JSONField
 
 from beanlibapi.core import (
     model_managers as mm,
@@ -47,7 +46,7 @@ class Bean(models.Model):
 class BeanDetail(models.Model):
     uid = models.UUIDField(primary_key=True, default=uuid.uuid4, db_index=True, unique=True, editable=False)
     bean_uid = models.ForeignKey(Bean, on_delete=models.CASCADE)
-    context = JSONField(default={}, blank=True)
+    context = models.JSONField(default=dict, blank=True)
 
 
 class Cafe(models.Model):
@@ -69,7 +68,8 @@ class Article(models.Model):
 class Attachment(models.Model, mx.AttachmentMixin):
     uid = models.CharField(primary_key=True, max_length=24, unique=True, editable=False, default=generate_sid)
     filename = models.CharField(max_length=255)
-    path = models.FilePathField(max_length=255)
+    image = models.FileField()
+    # path = models.FilePathField(max_length=255)
     created_at = models.DateTimeField(db_index=True, auto_now_add=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     bean = models.ForeignKey('Bean', null=True, blank=True, on_delete=models.CASCADE)
