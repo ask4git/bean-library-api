@@ -10,6 +10,7 @@ from dj_rest_auth.serializers import (
 
 from beanlibapi.core.models import Bean, User
 
+
 user_model = get_user_model()
 
 
