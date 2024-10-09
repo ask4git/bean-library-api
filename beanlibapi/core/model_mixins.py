@@ -1,13 +1,3 @@
-# # -*- coding: utf-8 -*-
-#
-# from django.db import (
-#     models
-# )
-#
-#
-# class BeanMixin(models.manager):
-#     pass
-
 
 class UserMixin:
     def __str__(self):
