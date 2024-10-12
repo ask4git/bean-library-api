@@ -186,8 +186,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [BASE_DIR, "static", ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = [BASE_DIR, "static", ]
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = '/Users/ask4git/PycharmProjects/bean-library-api/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -303,4 +306,4 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # 미디어 파일을 관리할 경로 설정
 # MEDIA_ROOT = 'media'  # S3 버킷 내에서 미디어 파일을 저장할 폴더
-MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+# MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
