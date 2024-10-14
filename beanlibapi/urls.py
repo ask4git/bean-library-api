@@ -31,5 +31,5 @@ urlpatterns += [
     path('core/', include('beanlibapi.core.urls')),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     # path('api/csrf_token/', csrf_token_view, name='csrf_token'),
-    # path('', home_view, name='home'),
+    path('', admin.site.urls),
 ]

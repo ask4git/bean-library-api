@@ -16,11 +16,9 @@ from datetime import timedelta
 from pathlib import Path
 
 # from django.conf.global_settings import STATIC_ROOT
-from dotenv import load_dotenv
 
 from django.core.exceptions import ImproperlyConfigured
 
-load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -28,28 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-secret_file = os.path.join(BASE_DIR, 'secrets.json')
 
-with open(secret_file, 'r') as f:
-    secrets = json.loads(f.read())
-
-
-def get_secret(setting, _secrets=secrets):
-    try:
-        return _secrets[setting]
-    except KeyError:
-        error_msg = "Set the {} environment variable".format(setting)
-        raise ImproperlyConfigured(error_msg)
-
-
-# SECRET_KEY = get_secret("SECRET_KEY")
-SECRET_KEY = os.getenv('SECRET_KEY')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -130,23 +108,6 @@ AUTHENTICATION_BACKENDS = [
 
 WSGI_APPLICATION = 'beanlibapi.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': get_secret("DB_NAME"),
-    #     'USER': get_secret("DB_USER"),
-    #     'PASSWORD': get_secret("DB_PASSWORD"),
-    #     'HOST': get_secret("DB_HOST"),
-    #     'PORT': get_secret("DB_PORT"),
-    # }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -207,7 +168,7 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,  # True로 설정될 경우, 기존에 있던 refresh token은 blacklist가된다
     "UPDATE_LAST_LOGIN": True,
     "ALGORITHM": "HS256",
-    "SIGNING_KEY": SECRET_KEY,
+    "SIGNING_KEY": "django-insecure-&(+xf_#r8n16af&68##rdi%bl5+jppvr5*+rd4balg3rpb%=*l",
     "VERIFYING_KEY": None,
     "AUDIENCE": None,
     "ISSUER": None,
@@ -291,11 +252,11 @@ CSRF_COOKIE_NAME = 'XSRF-TOKEN'
 CSRF_HEADER_NAME = 'X-XSRF-TOKEN'
 
 # AWS Configure
-AWS_ACCESS_KEY_ID = get_secret("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = get_secret("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = get_secret("AWS_STORAGE_BUCKET_NAME")
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-AWS_S3_REGION_NAME = get_secret("AWS_S3_REGION_NAME")
+AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME")
 AWS_S3_SIGNATURE_VERSION = 's3v4'
 AWS_S3_FILE_OVERWRITE = False  # 같은 이름의 파일이 덮어쓰이지 않게 설정
 AWS_DEFAULT_ACL = None  # S3 권한 설정 (None으로 설정하면 권한을 따로 설정 가능)

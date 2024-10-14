@@ -11,6 +11,7 @@ import os
 
 from django.core.asgi import get_asgi_application
 
+# Todo 환경변수 변경
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'beanlibapi.settings.base')
 
 application = get_asgi_application()

@@ -9,7 +9,6 @@ from beanlibapi.core import (
     model_mixins as mx,
     constants as c,
 )
-from enumfields import EnumField
 from shortid import ShortId
 
 SID_GENERATOR = ShortId()
