@@ -34,4 +34,5 @@ jobs:
               poetry cache clear pypi --all -n
       - name: Run Tests
         run: |
+          export DJANGO_SETTINGS_MODULE=beanlibapi.settings.test
           python manage.py test
