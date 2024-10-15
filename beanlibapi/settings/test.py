@@ -6,7 +6,7 @@ env = environ.Env()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-env_file = os.path.join(BASE_DIR, '.env.local')
+env_file = os.path.join(BASE_DIR, '.env.test')
 if os.path.exists(env_file):
     environ.Env.read_env(env_file)
 
