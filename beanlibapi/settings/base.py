@@ -264,7 +264,18 @@ AWS_DEFAULT_ACL = None  # S3 권한 설정 (None으로 설정하면 권한을 �
 AWS_S3_ADDRESSING_STYLE = 'virtual'
 
 # Django-Storages Configure
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STORAGE = {
+    'default': {
+        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles':{
+        'BACKEND': 'django.core.staticfiles.storage.StaticFilesStorage',
+    }
+}
+
+
+
 
 # 미디어 파일을 관리할 경로 설정
 # MEDIA_ROOT = 'media'  # S3 버킷 내에서 미디어 파일을 저장할 폴더
