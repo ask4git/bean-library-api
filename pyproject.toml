@@ -21,6 +21,7 @@ django-cors-headers = "^4.5.0"
 django-bootstrap4 = "^24.4"
 django-storages = "^1.14.4"
 django-environ = "^0.11.2"
+dj-database-url = "^2.2.0"
 
 
 [tool.poetry.group.dev.dependencies]
