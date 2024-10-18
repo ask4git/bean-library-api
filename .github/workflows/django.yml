@@ -4,7 +4,7 @@ name: bean-library-api CI
 
 on:
   push:
-    branches: [ "main", "develop", "temp" ]
+    branches: [ "main", "develop", "feature/temp" ]
   pull_request:
     branches: [ "main", "develop" ]
 
