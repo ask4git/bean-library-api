@@ -60,4 +60,4 @@ jobs:
           DJANGO_SETTINGS_MODULE: beanlibapi.settings.test
         run: |
           python manage.py migrate
-          python manage.py test
+          poetry run pytest
