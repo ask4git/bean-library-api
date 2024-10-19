@@ -1,22 +1,27 @@
-version: '3.8'
-
 services:
   db:
     image: mysql:8.3
     restart: always
     environment:
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
     ports:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
       - mynetwork
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   server:
+    env_file:
+      - ".env.docker"
     build:
       context: .
       dockerfile: Dockerfile
@@ -26,16 +31,19 @@ services:
       python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
+      - static_volume:/app/static
+      - media_volume:/app/media
     ports:
       - "8000:8000"
     environment:
-      - DB_HOST=db
+      - DJANGO_SETTINGS_MODULE=beanlibapi.settings.docker
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
-      - DJANGO_SETTINGS_MODULE=beanlibapi.settings.local
+      - DB_HOST=db
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - mynetwork
 
@@ -45,7 +53,8 @@ services:
       - "80:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./static:/static
+      - static_volume:/static
+      - media_volume:/media
     depends_on:
       - server
     networks:
@@ -53,6 +62,8 @@ services:
 
 volumes:
   mysql_data:
+  static_volume:
+  media_volume:
 
 networks:
   mynetwork:

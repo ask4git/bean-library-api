@@ -149,7 +149,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# STATICFILES_DIRS = [BASE_DIR, "static", ]
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -231,6 +233,7 @@ LOGOUT_REDIRECT_URL = '/'
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
     'http://localhost:5173',
+    'http://localhost:81',
 ]
 SESSION_COOKIE_SECURE = True
 
@@ -269,13 +272,10 @@ STORAGE = {
     'default': {
         'BACKEND': 'django.core.files.storage.FileSystemStorage',
     },
-    'staticfiles':{
+    'staticfiles': {
         'BACKEND': 'django.core.staticfiles.storage.StaticFilesStorage',
     }
 }
-
-
-
 
 # 미디어 파일을 관리할 경로 설정
 # MEDIA_ROOT = 'media'  # S3 버킷 내에서 미디어 파일을 저장할 폴더
