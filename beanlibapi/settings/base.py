@@ -92,6 +92,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -280,3 +281,5 @@ STORAGE = {
 # 미디어 파일을 관리할 경로 설정
 # MEDIA_ROOT = 'media'  # S3 버킷 내에서 미디어 파일을 저장할 폴더
 # MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+
+REST_USE_JWT = True
