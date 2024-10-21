@@ -7,9 +7,7 @@ from dj_rest_auth.registration.serializers import (
 from dj_rest_auth.serializers import (
     LoginSerializer as _LoginSerializer,
 )
-
 from beanlibapi.core.models import Bean, User
-
 
 user_model = get_user_model()
 
