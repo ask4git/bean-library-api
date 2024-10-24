@@ -7,7 +7,7 @@ from dj_rest_auth.registration.serializers import (
 from dj_rest_auth.serializers import (
     LoginSerializer as _LoginSerializer,
 )
-from beanlibapi.core.models import Bean, User
+from beanlibapi.apps.core.models import Bean
 
 user_model = get_user_model()
 
@@ -33,12 +33,12 @@ class BeanSerializer(s.ModelSerializer):
 
 class UserSerializer(s.ModelSerializer):
     class Meta:
-        model = User
+        model = user_model
         fields = ('id', 'username', 'email')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
+        user = user_model.objects.create_user(**validated_data)
         return user
 
 

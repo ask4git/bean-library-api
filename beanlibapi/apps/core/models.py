@@ -1,14 +1,9 @@
 import uuid
-
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from beanlibapi.core import (
-    model_managers as mm,
-    model_mixins as mx,
-    constants as c,
-)
+from beanlibapi.apps.core import model_managers as mm, model_mixins as mx
+
 from shortid import ShortId
 
 SID_GENERATOR = ShortId()
@@ -16,14 +11,6 @@ SID_GENERATOR = ShortId()
 
 def generate_sid():
     return str(SID_GENERATOR.generate())
-
-
-class User(AbstractUser):
-    deleted = models.BooleanField(db_index=True, null=True, blank=True)
-    deleted_at = models.DateTimeField(db_index=True, null=True, blank=True)
-    phone_number = models.CharField(max_length=15, blank=True, null=True)
-
-    objects = mm.UserManager()
 
 
 class Bean(models.Model):

@@ -28,7 +28,7 @@ def test_registration_should_create_user():
 def test_registration_should_create_user2():
     client = APIClient()
     response = client.post(
-        '/core/auth/sign-up/',
+        '/auth/sign-up/',
         {
             'username': 'testuser2',
             'email': 'test@test2.com',

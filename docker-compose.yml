@@ -30,9 +30,9 @@ services:
       python manage.py migrate &&
       python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - .:/app
-      - static_volume:/app/static
-      - media_volume:/app/media
+      - .:/apps
+      - static_volume:/apps/static
+      - media_volume:/apps/media
     ports:
       - "8000:8000"
     environment:

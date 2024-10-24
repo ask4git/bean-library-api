@@ -3,13 +3,10 @@ from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView, CreateAPIView,
 )
-from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser
+from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 
-from beanlibapi.core import (
-    models as m,
-    serializers as s,
-)
+from beanlibapi.apps.core import serializers as s, models as m
 
 
 # from beanlibapi.core.permissions import IsOwnerOrReadOnly

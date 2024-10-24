@@ -1,10 +1,6 @@
 from django.contrib import admin
 
-from django.contrib.auth.admin import UserAdmin
-from beanlibapi.core.models import User
-from beanlibapi.core.models import Bean
-
-admin.site.register(User, UserAdmin)
+from beanlibapi.apps.core.models import Bean
 
 
 @admin.register(Bean)

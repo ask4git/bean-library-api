@@ -14,15 +14,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, include
 
-from beanlibapi import settings
-
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
@@ -31,7 +28,8 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path('core/', include('beanlibapi.core.urls')),
+    path('auth/', include('beanlibapi.apps.authx.urls')),
+    path('core/', include('beanlibapi.apps.core.urls')),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     # path('api/csrf_token/', csrf_token_view, name='csrf_token'),
     path('', admin.site.urls),

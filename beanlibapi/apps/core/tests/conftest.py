@@ -1,8 +1,6 @@
 import pytest
 
-from beanlibapi.core import (
-    models as m
-)
+from beanlibapi.apps.core import models as m
 
 from rest_framework.authtoken import models as am
 from django.contrib.auth import get_user_model

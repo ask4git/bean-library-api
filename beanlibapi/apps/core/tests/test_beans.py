@@ -1,6 +1,6 @@
 import pytest
 from rest_framework import status
-from beanlibapi.core import models as m
+from beanlibapi.apps.core import models as m
 from rest_framework.test import APIClient
 
 

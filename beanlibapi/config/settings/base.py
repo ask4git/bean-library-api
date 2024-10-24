@@ -32,8 +32,7 @@ SECRET_KEY = os.getenv('BEANLIBAPI_SECRET_KEY',
 ALLOWED_HOSTS = ['*']
 
 # Application definition
-
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,6 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+]
+
+PROJECT_APPS = [
+    'beanlibapi',
+    'beanlibapi.apps.authx',
+    'beanlibapi.apps.core',
+]
+
+THIRD_PARTY_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
@@ -49,12 +57,12 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth',
     'dj_rest_auth.registration',
-    'beanlibapi',
-    'beanlibapi.core',
     'corsheaders',
     'bootstrap4',
     'storages',
 ]
+
+INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
 
 SITE_ID = 1
 
@@ -70,7 +78,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'beanlibapi.urls'
+ROOT_URLCONF = 'beanlibapi.config.urls'
 
 TEMPLATES = [
     {
@@ -109,7 +117,7 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-WSGI_APPLICATION = 'beanlibapi.wsgi.application'
+WSGI_APPLICATION = 'beanlibapi.config.wsgi.application'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -137,7 +145,7 @@ LANGUAGES = [
     ('ko', 'Korean'),
     ('en-us', 'English'),
 ]
-LOCALE_PATH = [os.path.join(BASE_DIR, 'locale')]
+LOCALE_PATH = [os.path.join(BASE_DIR, '../../../locale')]
 
 TIME_ZONE = 'UTC'
 
@@ -149,20 +157,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, '../../../static')
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, 'static'),
 # )
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, '../../../media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'core.User'
+AUTH_USER_MODEL = 'authx.User'
 
 # 추가적인 JWT_AUTH 설정, https://django-rest-framework-simplejwt.readthedocs.io/en/latest/
 SIMPLE_JWT = {
