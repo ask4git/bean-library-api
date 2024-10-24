@@ -57,7 +57,7 @@ jobs:
       - name: Run tests
         env:
           DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
-          DJANGO_SETTINGS_MODULE: beanlibapi.settings.test
+          DJANGO_SETTINGS_MODULE: beanlibapi.config.settings.test
         run: |
           python manage.py migrate
           poetry run pytest
