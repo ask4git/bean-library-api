@@ -17,8 +17,8 @@ db.sqlite3
 db.sqlite3-journal
 
 # Media and Static files
-media/
-static/
+beanlibapi/media/
+beanlibapi/static/
 
 # IDE
 .idea/
@@ -35,10 +35,3 @@ Thumbs.db
 *.egg-info/
 dist/
 build/
-
-# Security
-secrets.json
-
-# Utility
-initsqlite.sh
-migrations-core.sh
