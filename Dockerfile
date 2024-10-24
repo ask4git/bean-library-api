@@ -14,7 +14,7 @@ ENV PATH=/root/.local/bin:$PATH
 # Install poetry to install our dependencies
 RUN pipx install poetry==1.8.3
 ENV PATH=/root/.local/bin:$PATH
-ENV DJANGO_SETTINGS_MODULE=beanlibapi.settings.local
+ENV DJANGO_SETTINGS_MODULE=beanlibapi.config.settings.docker
 
 COPY pyproject.toml poetry.lock* /app/
 RUN poetry config virtualenvs.create false && \
