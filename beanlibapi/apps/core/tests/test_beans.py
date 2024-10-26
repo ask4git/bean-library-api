@@ -43,8 +43,8 @@ class TestBean:
         assert response.status_code == status.HTTP_200_OK
         assert len(response.data) == self.num_of_beans + 1
 
-    def test_user_cannot_create_bean_via_post(self, user2, bean1, bean2, bean1_inactive):
-        self.client.force_authenticate(user=user2)
+    def test_user_cannot_create_bean_via_post(self, user1, bean1, bean2, bean1_inactive):
+        self.client.force_authenticate(user=user1)
         self.num_of_beans = 2
 
         response = self.client.get('/core/bean/')
