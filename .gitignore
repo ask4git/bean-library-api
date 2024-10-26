@@ -21,6 +21,7 @@ beanlibapi/media/
 beanlibapi/static/
 
 # IDE
+.run/
 .idea/
 .vscode/
 *.swp
