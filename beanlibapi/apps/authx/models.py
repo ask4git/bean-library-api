@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import AbstractUser
+
 
 from beanlibapi.apps.authx import model_managers as mm
 

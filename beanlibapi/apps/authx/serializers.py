@@ -1,9 +1,15 @@
+from django.conf import settings
+from django.contrib.auth.forms import PasswordResetForm
+
 from dj_rest_auth.registration.serializers import (
     RegisterSerializer as _RegisterSerializer,
 )
 from dj_rest_auth.serializers import (
-    LoginSerializer as _LoginSerializer,
+    PasswordResetSerializer as _PasswordResetSerializer,
 )
+
+if 'allauth' in settings.INSTALLED_APPS:
+    from .forms import AllAuthPasswordResetForm
 
 
 class RegisterSerializer(_RegisterSerializer):
@@ -15,6 +21,10 @@ class RegisterSerializer(_RegisterSerializer):
         return data
 
 
-class LoginSerializer(_LoginSerializer):
-    def get_cleaned_data(self):
-        print(self.validated_data)
+class PasswordResetSerializer(_PasswordResetSerializer):
+    @property
+    def password_reset_form_class(self):
+        if 'allauth' in settings.INSTALLED_APPS:
+            return AllAuthPasswordResetForm
+        else:
+            return PasswordResetForm
