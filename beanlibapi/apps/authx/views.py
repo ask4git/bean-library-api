@@ -3,7 +3,7 @@ from dj_rest_auth.registration.views import (
     LoginView as _LoginView
 )
 
-from beanlibapi.apps.core import serializers as s
+from beanlibapi.apps.authx import serializers as s
 
 
 class RegisterView(_RegisterView):
