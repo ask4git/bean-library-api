@@ -39,5 +39,6 @@ minversion = "6.0"
 addopts = "-ra"
 console_output_style = "progress"
 testpaths = [
-    "beanlibapi/core/tests"
+    "beanlibapi/apps/authx/tests",
+    "beanlibapi/apps/core/tests",
 ]
