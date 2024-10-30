@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv('BEANLIBAPI_SECRET_KEY',
                        's8$4ll-24pwqs*e$4*e(&@fhis_bzpwwb63cnac6)^-dweabok')
 
 ALLOWED_HOSTS = ['*']
-
+BASE_BACKEND_URL = 'http://localhost:8000'
 # Application definition
 DJANGO_APPS = [
     'django.contrib.admin',
@@ -55,6 +55,7 @@ THIRD_PARTY_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'dj_rest_auth',
     'dj_rest_auth.registration',
     'corsheaders',
@@ -235,7 +236,7 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
 )
 
-# APPEND_SLASH = False #<- / 관련 에러 제거
+APPEND_SLASH = False
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
@@ -248,12 +249,26 @@ SESSION_COOKIE_SECURE = True
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
-ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 # JWT_ACCESS_TOKEN_LIFETIME = 3300
 JWT_ACCESS_TOKEN_LIFETIME = 15
+
+# django-allauth
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email'
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    }
+}
 
 # dj-rest-auth
 REST_AUTH_PW_RESET_CONFIRM_URL_GENERATOR = 'beanlibapi.authx.utils.rest_auth.custom_url_generator'
@@ -326,3 +341,6 @@ STORAGE = {
 # MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 
 REST_USE_JWT = True
+
+GOOGLE_OAUTH2_CLIENT_ID = os.getenv("SOCIAL_AUTH_GOOGLE_CLIENT_ID")
+GOOGLE_OAUTH2_CLIENT_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_SECRET")
