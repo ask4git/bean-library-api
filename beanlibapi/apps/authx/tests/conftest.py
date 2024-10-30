@@ -9,7 +9,8 @@ def user1():
     user_model = get_user_model()
     user = user_model.objects.create_user(
         username='user1',
-        password='mypassword1'
+        email='user1@gmail.com',
+        password='mysecretpassword1'
     )
     user.save()
 
@@ -19,7 +20,8 @@ def user2():
     user_model = get_user_model()
     user = user_model.objects.create_user(
         username='user2',
-        password='mypassword2'
+        email='user2@gmail.com',
+        password='mysecretpassword2'
     )
     user.save()
 

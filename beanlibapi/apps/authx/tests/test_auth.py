@@ -10,9 +10,9 @@ class TestUsers:
     def setup_class(cls):
         cls.client = APIClient()
 
-    def test_registration_should_create_user2(self):
+    def test_signup_should_create_user2(self):
         response = self.client.post(
-            '/auth/sign-up/',
+            '/auth/signup/',
             {
                 'username': 'testuser2',
                 'email': 'testuser2@test2.com',
@@ -26,12 +26,12 @@ class TestUsers:
         assert user.email == 'testuser2@test2.com'
         assert user.username == 'testuser2'
 
-    def test_login_with_valid_user_should_return_200_ok(self, user1):
+    def test_signin_with_valid_user_should_return_200_ok(self, user1):
         response = self.client.post(
-            '/auth/sign-in/',
+            '/auth/signin/',
             {
-                'username': 'user1',
-                'password': 'mypassword1',
+                'email': 'user1@gmail.com',
+                'password': 'mysecretpassword1',
             }
         )
         assert response.status_code == 200
