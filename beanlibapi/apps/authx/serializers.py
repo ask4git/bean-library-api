@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.contrib.auth.forms import PasswordResetForm
-
 from dj_rest_auth.registration.serializers import (
     RegisterSerializer as _RegisterSerializer,
 )
