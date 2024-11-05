@@ -1,23 +1,32 @@
 services:
   db:
-    image: mysql:8.3
-    restart: always
+    image: postgres:17.0-alpine3.20
+    #    deploy:
+    #      placement:
+    #        constraints:
+    #          - node.role==manager
+    #        max_replicas_per_node: 1
+    env_file:
+      - ".env.docker"
     environment:
-      - MYSQL_DATABASE=${DB_NAME}
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-    ports:
-      - "3307:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-    networks:
-      - mynetwork
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_PORT=${DB_PORT}
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
-      interval: 10s
+      #      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      test: "pg_isready -U ${DB_USER}"
+      interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - mynetwork
+    ports:
+      - "5433:5432"
+    restart: always
+    volumes:
+      - ./db/initdb.d:/docker-entrypoint-initdb.d:ro
+      - db_data:/var/lib/postgresql/data
 
   server:
     env_file:
@@ -26,8 +35,7 @@ services:
       context: .
       dockerfile: Dockerfile
     command: >
-      bash -c "
-      python manage.py migrate &&
+      bash -c "python manage.py migrate &&
       python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/apps
@@ -61,7 +69,7 @@ services:
       - mynetwork
 
 volumes:
-  mysql_data:
+  db_data:
   static_volume:
   media_volume:
 
