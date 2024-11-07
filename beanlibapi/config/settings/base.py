@@ -240,10 +240,15 @@ APPEND_SLASH = False
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
+CSRF_COOKIE_NAME = 'csrftoken'
+CSRF_HEADER_NAME = 'X-CSRFToken'
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
     'http://localhost:5173',
+    'http://localhost:80',
     'http://localhost:81',
+    'http://localhost:8000',
+    'http://localhost:8000/',
 ]
 SESSION_COOKIE_SECURE = True
 
@@ -307,10 +312,16 @@ REST_AUTH = {
     'JWT_AUTH_COOKIE_ENFORCE_CSRF_ON_UNAUTHENTICATED': False,
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'webmaster@localhost'
-CSRF_COOKIE_NAME = 'XSRF-TOKEN'
-CSRF_HEADER_NAME = 'X-XSRF-TOKEN'
+# Email SMTP configure
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = os.getenv("GMAIL_EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("GMAIL_EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+GMAIL_DEFAULT_SENDER = os.getenv("GMAIL_EMAIL_HOST_USER")
+
 
 # AWS Configure
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")

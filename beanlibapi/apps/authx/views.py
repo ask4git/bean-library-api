@@ -2,13 +2,21 @@ from allauth.core.internal.httpkit import redirect
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView, SocialConnectView
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework import permissions as p
 from rest_framework.response import Response
 import requests
-
+from django.core.mail.message import EmailMessage
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.http import HttpResponse
+
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 class GoogleLoginView(SocialLoginView):
@@ -122,3 +130,15 @@ class GoogleCallbackApiView(APIView):
 
         print(profile_data)
         return Response(profile_data)
+
+
+@api_view(['POST'])
+def send_email(request, ):
+    if request.method == "POST":
+        send_mail(
+            'Title',  # 이메일 제목
+            'Contentsss',  # 내용
+            from_email=settings.GMAIL_DEFAULT_SENDER,
+            recipient_list=['ask4git@gmail.com'],  # 받는
+        )
+    return render(request, 'email.html')

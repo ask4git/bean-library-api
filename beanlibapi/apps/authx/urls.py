@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework_simplejwt.views import (
@@ -10,6 +11,7 @@ from dj_rest_auth.views import (
     PasswordResetView,
     PasswordResetConfirmView,
 )
+
 from dj_rest_auth.registration.views import (
     RegisterView,
 )
@@ -18,8 +20,11 @@ from beanlibapi.apps.authx.views import (
     GoogleCallbackApiView,
     GoogleLoginView,
     GoogleConnectView,
+    send_email,
 )
+from rest_framework_simplejwt.views import TokenVerifyView
 
+from dj_rest_auth.jwt_auth import get_refresh_view
 app_name = 'authx'
 
 urlpatterns = []
@@ -32,7 +37,9 @@ urlpatterns += [
     path('password/reset/confirm/<str:uidb64>/<str:token>/', PasswordResetConfirmView.as_view(),
          name='password_reset_confirm'),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain'),
+    # path('token/verify/', TokenObtainPairView.as_view(), name='token_obtain'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('email/send/', send_email, name='send_email'),
 ]
 
 urlpatterns += [
@@ -41,5 +48,13 @@ urlpatterns += [
     path('api/social-login/google/', GoogleLoginView.as_view(), name='google_login'),
     path('api/social-login/connect/google/', GoogleConnectView.as_view(), name='google_login'),
 ]
+
+urlpatterns += [
+    path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    # path('token/refresh/', get_refresh_view().as_view(), name='token_refresh'),
+]
+
+
+
 
 urlpatterns = format_suffix_patterns(urlpatterns)
