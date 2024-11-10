@@ -81,7 +81,8 @@ def google_get_user_info(access_token):
 
 # http://localhost:8000/auth/signup/google/
 class GoogleLoginApiView(APIView):
-    permission_classes = [p.IsAuthenticatedOrReadOnly]
+    # permission_classes = [p.IsAuthenticatedOrReadOnly]
+
 
     def get(self, request, *args, **kwargs):
         app_key = settings.GOOGLE_OAUTH2_CLIENT_ID
