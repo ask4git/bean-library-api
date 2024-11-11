@@ -83,7 +83,6 @@ def google_get_user_info(access_token):
 class GoogleLoginApiView(APIView):
     # permission_classes = [p.IsAuthenticatedOrReadOnly]
 
-
     def get(self, request, *args, **kwargs):
         app_key = settings.GOOGLE_OAUTH2_CLIENT_ID
         scope = "https://www.googleapis.com/auth/userinfo.email " + \
