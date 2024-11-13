@@ -78,6 +78,7 @@ def google_get_user_info(access_token):
 
     return user_info
 
+
 # http://localhost:8000/auth/signup/google/
 class GoogleLoginApiView(APIView):
     # permission_classes = [p.IsAuthenticatedOrReadOnly]
@@ -87,11 +88,14 @@ class GoogleLoginApiView(APIView):
         scope = "https://www.googleapis.com/auth/userinfo.email " + \
                 "https://www.googleapis.com/auth/userinfo.profile"
 
-        redirect_uri = settings.BASE_BACKEND_URL + "/auth/signup/google/callback"
-        google_auth_api = "https://accounts.google.com/o/oauth2/v2/auth"
+        redirect_uri = f"{settings.BASE_BACKEND_URL}/auth/signup/google/callback"
 
         response = redirect(
-            f"{google_auth_api}?client_id={app_key}&response_type=code&redirect_uri={redirect_uri}&scope={scope}"
+            f"{settings.GOOGLE_OAUTH2_API}/auth?"
+            f"client_id={app_key}&"
+            f"response_type=code&"
+            f"redirect_uri={redirect_uri}&"
+            f"scope={scope}"
         )
 
         return response
@@ -101,7 +105,6 @@ class GoogleCallbackApiView(APIView):
     permission_classes = [p.IsAuthenticatedOrReadOnly]
 
     def get(self, request, *args, **kwargs):
-        print("?????????????????????????????")
         code = request.GET.get('code')
         google_token_api = "https://oauth2.googleapis.com/token"
 
@@ -118,14 +121,18 @@ class GoogleCallbackApiView(APIView):
             'name': user_data.get('name', ''),
             'image': user_data.get('picture', None),
             'path': "google",
+            'access_token': access_token,
         }
 
-        # user_info_response = requests.get(
-        #     "https://www.googleapis.com/oauth2/v3/userinfo",
-        #     params={
-        #         'access_token': access_token
-        #     }
-        # )
+        print("?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!")
+        user_info_response = requests.get(
+            # "https://www.googleapis.com/oauth2/v3/userinfo",
+            f"{settings.GOOGLE_OAUTH2_API}/userinfo",
+            params={
+                'access_token': access_token
+            }
+        )
+        print(user_info_response)
 
         print(profile_data)
         return Response(profile_data)
@@ -135,9 +142,9 @@ class GoogleCallbackApiView(APIView):
 def send_email(request, ):
     if request.method == "POST":
         send_mail(
-            'Title',  # 이메일 제목
-            'Contentsss',  # 내용
+            'Title',
+            'Contentsss',
             from_email=settings.GMAIL_DEFAULT_SENDER,
-            recipient_list=['ask4git@gmail.com'],  # 받는
+            recipient_list=['ask4git@gmail.com'],
         )
     return render(request, 'email.html')

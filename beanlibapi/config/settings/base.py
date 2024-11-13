@@ -211,9 +211,7 @@ CORS_ALLOW_CREDENTIALS = True  # <-쿠키가 cross-site HTTP 요청에 포함될
 # ]
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
-    'http://localhost:3000',
     'http://127.0.0.1:5173',
-    'http://127.0.0.1:3000',
 ]
 CORS_ALLOW_METHODS = (
     'DELETE',
@@ -243,12 +241,12 @@ LOGOUT_REDIRECT_URL = '/'
 CSRF_COOKIE_NAME = 'csrftoken'
 CSRF_HEADER_NAME = 'X-CSRFToken'
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000',
+    # 'http://localhost:3000',
     'http://localhost:5173',
     'http://localhost:80',
     'http://localhost:81',
-    'http://localhost:8000',
-    'http://localhost:8000/',
+    # 'http://localhost:8000',
+    # 'http://localhost:8000/',
 ]
 SESSION_COOKIE_SECURE = True
 
@@ -322,7 +320,6 @@ EMAIL_HOST_PASSWORD = os.getenv("GMAIL_EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 GMAIL_DEFAULT_SENDER = os.getenv("GMAIL_EMAIL_HOST_USER")
 
-
 # AWS Configure
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
@@ -351,5 +348,6 @@ STORAGE = {
 
 REST_USE_JWT = True
 
+GOOGLE_OAUTH2_API = "https://accounts.google.com/o/oauth2/v2"
 GOOGLE_OAUTH2_CLIENT_ID = os.getenv("SOCIAL_AUTH_GOOGLE_CLIENT_ID")
 GOOGLE_OAUTH2_CLIENT_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_SECRET")
