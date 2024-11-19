@@ -61,6 +61,7 @@ THIRD_PARTY_APPS = [
     'corsheaders',
     'bootstrap4',
     'storages',
+    'drf_spectacular'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
@@ -106,6 +107,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'myapp.serializers.CustomRegisterSerializer',
@@ -351,3 +353,12 @@ REST_USE_JWT = True
 GOOGLE_OAUTH2_API = "https://accounts.google.com/o/oauth2/v2"
 GOOGLE_OAUTH2_CLIENT_ID = os.getenv("SOCIAL_AUTH_GOOGLE_CLIENT_ID")
 GOOGLE_OAUTH2_CLIENT_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_SECRET")
+GOOGLE_SCOPE_USERINFO = "https://www.googleapis.com/auth/userinfo.email " + \
+                        "https://www.googleapis.com/auth/userinfo.profile"
+
+# DRF-Spectacular Configure
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'My API Service',
+    'DESCRIPTION': 'A detailed description of my API.',
+    'VERSION': '1.0.0',
+}
