@@ -101,12 +101,12 @@ TEMPLATES = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 REST_AUTH_REGISTER_SERIALIZERS = {
@@ -350,7 +350,8 @@ STORAGE = {
 
 REST_USE_JWT = True
 
-GOOGLE_OAUTH2_API = "https://accounts.google.com/o/oauth2/v2"
+GOOGLE_OAUTH2_API = "https://accounts.google.com/o/oauth2/v2/auth"
+GOOGLE_OAUTH2_TOKEN_API = "https://oauth2.googleapis.com/token"
 GOOGLE_OAUTH2_CLIENT_ID = os.getenv("SOCIAL_AUTH_GOOGLE_CLIENT_ID")
 GOOGLE_OAUTH2_CLIENT_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_SECRET")
 GOOGLE_SCOPE_USERINFO = "https://www.googleapis.com/auth/userinfo.email " + \
@@ -361,4 +362,28 @@ SPECTACULAR_SETTINGS = {
     'TITLE': 'My API Service',
     'DESCRIPTION': 'A detailed description of my API.',
     'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
+    'CONTACT': {
+        'name': 'Jinhyuk Choi',
+        'email': 'beanlibraryinfo@gmail.com',
+        'url': 'https://www.beanlibrary.store',
+    },
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,
+        'theme': 'dark',
+        'validatorUrl': None,
+        # https://swagger.io/docs/open-source-tools/swagger-ui/usage/configuration/  <- 여기 들어가면 어떤 옵션들이 더 있는지 알수있습니다.
+        'dom_id': '#swagger-ui',  # required(default)
+        'layout': 'BaseLayout',  # required(default)
+        'deepLinking': True,  # API를 클릭할때 마다 SwaggerUI의 url이 변경됩니다. (특정 API url 공유시 유용하기때문에 True설정을 사용합니다)
+        'persistAuthorization': True,  # True 이면 SwaggerUI상 Authorize에 입력된 정보가 새로고침을 하더라도 초기화되지 않습니다.
+        'displayOperationId': True,  # True이면 API의 urlId 값을 노출합니다. 대체로 DRF api name둘과 일치하기때문에 api를 찾을때 유용합니다.
+        'filter': True,  # True 이면 Swagger UI에서 'Filter by Tag' 검색이 가능합니다
+    },
+    'LICENSE': {
+        'name': 'MIT License',
+        'url': 'https://opensource.org/licenses/MIT',
+        # github의 LICENSE 주소도 가능
+    }
 }
