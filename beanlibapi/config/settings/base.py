@@ -243,12 +243,9 @@ LOGOUT_REDIRECT_URL = '/'
 CSRF_COOKIE_NAME = 'csrftoken'
 CSRF_HEADER_NAME = 'X-CSRFToken'
 CSRF_TRUSTED_ORIGINS = [
-    # 'http://localhost:3000',
     'http://localhost:5173',
     'http://localhost:80',
     'http://localhost:81',
-    # 'http://localhost:8000',
-    # 'http://localhost:8000/',
 ]
 SESSION_COOKIE_SECURE = True
 
@@ -266,7 +263,7 @@ SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
             'profile',
-            'email'
+            'email',
         ],
         'AUTH_PARAMS': {
             'access_type': 'online',
@@ -350,12 +347,10 @@ STORAGE = {
 
 REST_USE_JWT = True
 
-GOOGLE_OAUTH2_API = "https://accounts.google.com/o/oauth2/v2/auth"
-GOOGLE_OAUTH2_TOKEN_API = "https://oauth2.googleapis.com/token"
-GOOGLE_OAUTH2_CLIENT_ID = os.getenv("SOCIAL_AUTH_GOOGLE_CLIENT_ID")
-GOOGLE_OAUTH2_CLIENT_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_SECRET")
-GOOGLE_SCOPE_USERINFO = "https://www.googleapis.com/auth/userinfo.email " + \
-                        "https://www.googleapis.com/auth/userinfo.profile"
+# Google OAuth 2.0 Configure
+GOOGLE_OAUTH2_CLIENT_ID = os.getenv("GOOGLE_OAUTH2_CLIENT_ID")
+GOOGLE_OAUTH2_CLIENT_SECRET = os.getenv("GOOGLE_OAUTH2_CLIENT_SECRET")
+GOOGLE_OAUTH2_REDIRECT_URL = os.getenv("GOOGLE_OAUTH2_REDIRECT_URL")
 
 # DRF-Spectacular Configure
 SPECTACULAR_SETTINGS = {
