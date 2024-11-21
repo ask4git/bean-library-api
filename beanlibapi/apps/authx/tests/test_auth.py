@@ -35,3 +35,9 @@ class TestUsers:
             }
         )
         assert response.status_code == 200
+
+    def test_signup_with_google(self):
+        response = self.client.get(
+            '/auth/signup/google/'
+        )
+        assert response.status_code == 200

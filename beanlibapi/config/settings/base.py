@@ -370,7 +370,6 @@ SPECTACULAR_SETTINGS = {
         'url': 'https://www.beanlibrary.store',
     },
     'SWAGGER_UI_SETTINGS': {
-        'deepLinking': True,
         'theme': 'dark',
         'validatorUrl': None,
         # https://swagger.io/docs/open-source-tools/swagger-ui/usage/configuration/  <- 여기 들어가면 어떤 옵션들이 더 있는지 알수있습니다.

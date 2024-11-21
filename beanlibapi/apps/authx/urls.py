@@ -15,16 +15,19 @@ from dj_rest_auth.views import (
 from dj_rest_auth.registration.views import (
     RegisterView,
 )
-from beanlibapi.apps.authx.views import (
-    GoogleLoginApiView,
-    GoogleCallbackApiView,
+from beanlibapi.apps.authx.views.base import (
+    send_email,
+)
+from beanlibapi.apps.authx.views.google import (
+    google_login_api_view,
+    google_callback_api_view,
     GoogleLoginView,
     GoogleConnectView,
-    send_email,
 )
 from rest_framework_simplejwt.views import TokenVerifyView
 
 from dj_rest_auth.jwt_auth import get_refresh_view
+
 app_name = 'authx'
 
 urlpatterns = []
@@ -43,8 +46,8 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    path("signup/google/", GoogleLoginApiView.as_view(), name="signup_google"),
-    path("signup/google/callback", GoogleCallbackApiView.as_view(), name="signup_google_callback"),
+    path("signup/google/", google_login_api_view, name="signup_google"),
+    path("signup/google/callback", google_callback_api_view, name="signup_google_callback"),
     path('api/social-login/google/', GoogleLoginView.as_view(), name='google_login'),
     path('api/social-login/connect/google/', GoogleConnectView.as_view(), name='google_login'),
 ]
@@ -53,8 +56,5 @@ urlpatterns += [
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     # path('token/refresh/', get_refresh_view().as_view(), name='token_refresh'),
 ]
-
-
-
 
 urlpatterns = format_suffix_patterns(urlpatterns)

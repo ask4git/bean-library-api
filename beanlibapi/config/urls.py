@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, include
+from beanlibapi.apps.core.views.base import index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,6 +36,6 @@ urlpatterns += [
     path('core/', include('beanlibapi.apps.core.urls')),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     # path('api/csrf_token/', csrf_token_view, name='csrf_token'),
-    path('', admin.site.urls),
+    path('', index),
 ]
 
