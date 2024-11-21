@@ -14,8 +14,9 @@ from dj_rest_auth.views import (
 from dj_rest_auth.registration.views import (
     RegisterView,
 )
-from beanlibapi.apps.authx.views import (
-    send_email,
+from beanlibapi.apps.authx.views.base import (send_email, )
+from beanlibapi.apps.authx.views.google import (
+
     GoogleLoginView,
     GoogleConnectView,
 )
@@ -39,7 +40,7 @@ urlpatterns += [
 
 urlpatterns += [
     path('api/social-login/google/', GoogleLoginView.as_view(), name='google_login'),
-    path('api/social-login/connect/google/', GoogleConnectView.as_view(), name='google_login'),
+    path('api/social-login/connect/google/', GoogleConnectView.as_view(), name='google_loginconnect'),
 ]
 
 urlpatterns += [

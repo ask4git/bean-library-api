@@ -214,6 +214,7 @@ CORS_ALLOW_CREDENTIALS = True  # <-쿠키가 cross-site HTTP 요청에 포함될
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
+    'http://localhost:8000'
 ]
 CORS_ALLOW_METHODS = (
     'DELETE',

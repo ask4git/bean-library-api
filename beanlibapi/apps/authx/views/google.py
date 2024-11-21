@@ -12,6 +12,7 @@ class GoogleLoginView(SocialLoginView):
 
 class GoogleConnectView(SocialConnectView):
     adapter_class = GoogleOAuth2Adapter
+    client_class = OAuth2Client
 
 # # Temporary Deprecated
 # def google_get_access_token(code):
