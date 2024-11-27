@@ -53,7 +53,8 @@ class Article(models.Model):
 
 class Attachment(models.Model, mx.AttachmentMixin):
     uid = models.CharField(primary_key=True, max_length=24, unique=True, editable=False, default=generate_sid)
-    filename = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    format = models.CharField(max_length=255)
     image = models.FileField()
     # path = models.FilePathField(max_length=255)
     created_at = models.DateTimeField(db_index=True, auto_now_add=True)
