@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from beanlibapi.apps.core import views, views_temp
+from beanlibapi.apps.core import views
 
 app_name = 'core'
 
