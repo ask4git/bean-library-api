@@ -10,14 +10,13 @@ urlpatterns = []
 urlpatterns += [
     path('bean/', views.BeanListCreateView.as_view()),
     path('bean/<str:pk>/', views.BeanRetrieveUpdateDestroyView.as_view()),
-    path('bean/upload/', views.BeanImageUploadView.as_view()),
-    path('attachments/uploads/', views.AttachmentUploadView.as_view()),
-
+    # path('bean/upload/', views.BeanImageUploadView.as_view()),
+    # path('attachments/uploads/', views.AttachmentUploadView.as_view()),
+    # path('attachments/uploads/confirm/', views.AttachmentUploadConfirmView.as_view()),
+    path('cafe/', views.CafeView.as_view()),
+    path('cafe/<str:uid>/attach/', views.CafeDetailView.as_view())
+    # path('/cafe/<str:pk>/', )
 ]
 
-# temp
-urlpatterns += [
-    path('books/', views_temp.protected_view, name='books_temp'),
-]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
