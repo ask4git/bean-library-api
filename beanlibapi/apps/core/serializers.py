@@ -48,10 +48,35 @@ class AttachmentSerializer(s.ModelSerializer):
         fields = ['name', 'format']
 
 
-class CafeSerializer(s.ModelSerializer):
+class CafeWriteSerializer(s.ModelSerializer):
     class Meta:
         model = Cafe
         fields = '__all__'
         extra_kwargs = {
-            'owner': {'required': False}
+            'owner': {'read_only': True, 'required': False},
         }
+
+
+class CafeSerializer(s.ModelSerializer):
+    image = s.SerializerMethodField()
+    title = s.CharField(source='name')
+    author = s.CharField(source='uid')
+
+    class Meta:
+        model = Cafe
+        fields = ['image', 'title', 'author']
+        extra_kwargs = {
+            'owner': {'read_only': True, 'required': False},
+        }
+
+    @staticmethod
+    def get_image(obj):
+        if isinstance(obj.images, list) and obj.images:
+            return obj.images[0]
+        return [""]
+
+
+class CafeDetailSerializer(s.ModelSerializer):
+    class Meta:
+        model = Cafe
+        fields = ['images']
