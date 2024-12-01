@@ -256,8 +256,10 @@ CORS_ALLOW_ALL_ORIGINS = True
 JWT_ACCESS_TOKEN_LIFETIME = 15
 
 # django-allauth
+# reference: https://docs.allauth.org/en/dev/account/configuration.html
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
