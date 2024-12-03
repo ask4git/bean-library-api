@@ -1,4 +1,3 @@
-
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
@@ -14,6 +13,8 @@ from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.conf import settings
 
+from allauth.account.adapter import get_adapter
+
 
 @api_view(['POST'])
 def send_email(request, ):
@@ -25,3 +26,12 @@ def send_email(request, ):
             recipient_list=['ask4git@gmail.com'],
         )
     return render(request, 'email.html')
+
+
+class CustomEmailVerification(APIView):
+    def get(self, request):
+        pass
+
+    def post(self, request):
+        adapter = get_adapter()
+        adapter.is_email_verified()
