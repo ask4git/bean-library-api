@@ -23,8 +23,6 @@ RUN poetry config virtualenvs.create false && \
         poetry cache clear pypi --all -n
 
 COPY . /app
-
 EXPOSE 8000
-
-#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT ["./entrypoint.sh"]
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "beanlibapi.config.wsgi:application"]
