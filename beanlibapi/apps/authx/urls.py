@@ -12,10 +12,10 @@ from dj_rest_auth.views import (
     PasswordResetConfirmView,
 )
 from dj_rest_auth.registration.views import (
-    RegisterView,
     ResendEmailVerificationView,
 )
 from beanlibapi.apps.authx.views.base import (
+    RegisterView,
     send_email,
     CustomEmailVerification,
 )
@@ -24,7 +24,6 @@ from beanlibapi.apps.authx.views.google import (
     GoogleConnectView,
 )
 from allauth.account.views import email as allauth_email_view
-
 
 app_name = 'authx'
 

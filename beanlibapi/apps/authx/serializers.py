@@ -31,12 +31,8 @@ if 'allauth' in settings.INSTALLED_APPS:
 
 
 class RegisterSerializer(_RegisterSerializer):
-    def get_cleaned_data(self):
-        data = super().get_cleaned_data()
-        data.update({'first_name': self.validated_data.get('first_name', '')})
-        data.update({'last_name': self.validated_data.get('last_name', '')})
-        data.update({'phone_number': self.validated_data.get('phone_number', '')})
-        return data
+    def validate_user_status(self, user):
+        return user.is_active
 
 
 class PasswordResetSerializer(_PasswordResetSerializer):
