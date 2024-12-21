@@ -1,9 +1,11 @@
 import pytest
 from allauth.account.models import EmailAddress
-from django.contrib.sites.models import Site
+# from django.contrib.sites.models import Site
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken import models as am
-from allauth.socialaccount.models import SocialApp
+
+
+# from allauth.socialaccount.models import SocialApp
 
 
 @pytest.fixture
