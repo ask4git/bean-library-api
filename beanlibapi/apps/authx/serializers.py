@@ -36,12 +36,21 @@ class RegisterSerializer(_RegisterSerializer):
 
 
 class PasswordResetSerializer(_PasswordResetSerializer):
-    @property
-    def password_reset_form_class(self):
-        if 'allauth' in settings.INSTALLED_APPS:
-            return AllAuthPasswordResetForm
-        else:
-            return PasswordResetForm
+    password_reset_form_class = PasswordResetForm
+
+    def get_email_options(self):
+        return {
+            'html_email_template_name': 'registration/password_reset_email.html',
+            'email_template_name': 'registration/password_reset_email.txt'
+        }
+
+    def validate_email_address(self, email_address):
+        # if not email_address_exists(email_address):
+        #     raise EmailNotFoundError()
+        return super().validate_email(email_address)
+
+    # def validate_email(self, value):
+    #     return value
 
 
 class GoogleSocialLoginSerializer(_SocialLoginSerializer):
