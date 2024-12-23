@@ -66,3 +66,46 @@ class AllAuthPasswordResetForm(_AllAuthPasswordResetForm):
                 'account/email/password_reset_key', email, context
             )
         return self.cleaned_data['email']
+
+
+class PasswordResetForm(_AllAuthPasswordResetForm):
+    def get_users(self, email):
+        UserModel = get_user_model()
+
+        if not validate_email(email, verify=False, check_mx=False):
+            raise exc.InvalidEmailFormat({'email': [_('Not a valid email address')]})
+
+        active_users = UserModel._default_manager.filter(**{
+            '%s__iexact' % UserModel.get_email_field_name(): email,
+            'is_active': True,
+        })
+        users = (u for u in active_users)
+
+        if not users:
+            raise exc.UserNotFound({'email': [_('User who has the email address is not found')]})
+        if settings.CHECK_EMAIL_MX and not validate_email(email, check_mx=True, smtp_timeout=5):
+            raise exc.MxServerNotFound({'email': [_('Mail server does not respond')]})
+
+        return users
+
+
+def save(self, domain_override=None,
+         subject_template_name='registration/password_reset_subject.txt',
+         email_template_name='registration/password_reset_email.html',
+         use_https=False, token_generator=default_token_generator,
+         from_email=None, request=None, html_email_template_name=None,
+         extra_email_context=None):
+    email = self.cleaned_data["email"]
+    for user in self.get_users(email):
+        context = {
+            'email': email,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'user': user,
+            'token': token_generator.make_token(user),
+            'protocol': 'https' if use_https else 'http',
+            'app_domain': settings.APP_DOMAIN,
+        }
+        super().send_mail(
+            subject_template_name, email_template_name, context, from_email,
+            email, html_email_template_name=html_email_template_name,
+        )
